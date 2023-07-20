@@ -1,4 +1,4 @@
-﻿namespace UnifyApi.Domain.Abstractions.Entities;
+﻿namespace BandHub.Domain.Abstractions.Entities;
 
 public interface IOutput
 {

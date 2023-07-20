@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
-using UnifyApi.Domain.Abstractions.Entities;
+using BandHub.Domain.Abstractions.Entities;
 
-namespace UnifyApi.Domain.Abstractions.Repositories;
+namespace BandHub.Domain.Abstractions.Repositories;
 
 public interface IGenericRepository<TEntity, TInput, TOutput>
     where TEntity : class, IEntity
@@ -12,7 +12,7 @@ public interface IGenericRepository<TEntity, TInput, TOutput>
 
     Task<TOutput> Get(Guid id, CancellationToken ct);
 
-    Task<IEnumerable<TOutput>> Find(Expression<Func<TEntity, bool>> predicate);
+    Task<IEnumerable<TOutput>> Find(Expression<Func<TEntity, bool>> predicate, CancellationToken ct);
 
     Task<TOutput> Create(TInput input, CancellationToken ct);
 

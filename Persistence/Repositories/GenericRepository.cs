@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using UnifyApi.Domain.Abstractions.Entities;
-using UnifyApi.Domain.Abstractions.Repositories;
+using BandHub.Domain.Abstractions.Entities;
+using BandHub.Domain.Abstractions.Repositories;
 
-namespace UnifyApi.Persistence.Repositories;
+namespace BandHub.Persistence.Repositories;
 
 public class GenericRepository<TEntity, TInput, TOutput> : IGenericRepository<TEntity, TInput, TOutput>
     where TEntity : class, IEntity
@@ -12,9 +12,9 @@ public class GenericRepository<TEntity, TInput, TOutput> : IGenericRepository<TE
     where TOutput : class, IOutput
 {
     protected readonly IMapper _mapper;
-    protected readonly UnifyContext _context;
+    protected readonly BandHubContext _context;
 
-    public GenericRepository(UnifyContext context, IMapper mapper) => (_context, _mapper) = (context, mapper);
+    public GenericRepository(BandHubContext context, IMapper mapper) => (_context, _mapper) = (context, mapper);
 
     public async Task<IEnumerable<TOutput>> Get(CancellationToken ct)
     {
@@ -30,9 +30,9 @@ public class GenericRepository<TEntity, TInput, TOutput> : IGenericRepository<TE
         return (TOutput)_mapper.Map(item, item.GetType(), typeof(TOutput));
     }
 
-    public async Task<IEnumerable<TOutput>> Find(Expression<Func<TEntity, bool>> predicate)
+    public async Task<IEnumerable<TOutput>> Find(Expression<Func<TEntity, bool>> predicate, CancellationToken ct)
     {
-        var items = await _context.Set<TEntity>().Where(predicate).ToListAsync();
+        var items = await _context.Set<TEntity>().Where(predicate).ToListAsync(ct);
 
         return (IEnumerable<TOutput>)_mapper.Map(items, items.GetType(), typeof(IEnumerable<TOutput>));
     }

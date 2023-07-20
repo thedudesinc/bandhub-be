@@ -1,26 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using UnifyApi.Domain.Abstractions.Repositories;
-using UnifyApi.Domain.Abstractions.Services;
-using UnifyApi.Domain.Profiles;
-using UnifyApi.Domain.Services;
-using UnifyApi.Persistance.Repositories;
-using UnifyApi.Persistence;
+using BandHub.Domain.Abstractions.Repositories;
+using BandHub.Domain.Abstractions.Services;
+using BandHub.Domain.Profiles;
+using BandHub.Domain.Services;
+using BandHub.Persistence;
+using BandHub.Persistence.Repositories;
 
-namespace UnifyApi.App;
+namespace BandHub.App;
 
 public static class Registration
 {
     public static void ConfigureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<UnifyContext>(options =>
+        services.AddDbContext<BandHubContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("UnifyDbContext")));
 
-        services.AddTransient<IWidgetRepository, WidgetRepository>();
-        services.AddTransient<IWidgetInstanceRepository, WidgetInstanceRepository>();
-        services.AddTransient<IWidgetService, WidgetService>();
-        services.AddTransient<IWidgetInstanceService, WidgetInstanceService>();
+        services.AddTransient<IUserRepository, UserRepository>();
+        services.AddTransient<IUserService, UserService>();
 
-        services.AddAutoMapper(typeof(UnifyProfile));
+        services.AddAutoMapper(typeof(BandHubProfile));
     }
 }
 
